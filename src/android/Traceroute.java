@@ -77,7 +77,11 @@ public class Traceroute extends CordovaPlugin {
         String ip = args.getString(0);          
         int maxttl = args.getInt(1);          
         JSONObject t = new JSONObject();
-              
+
+
+        
+        
+        
         try
         {
             InetAddress add = InetAddress.getByName("www.google.com");
@@ -103,12 +107,7 @@ public class Traceroute extends CordovaPlugin {
     		// Construct the response from ping
     		String s;
     		String res = "";
-    		if (output.contains("1 received")) {
-    			//context.stopProgressBar();
-    			//finishedTasks++;
-    	        callbackContext.error("finished");
-    	        return;
-    		}
+
     		while ((s = stdInput.readLine()) != null) {
 
     			res += s + "\n";
@@ -121,9 +120,15 @@ public class Traceroute extends CordovaPlugin {
 
 
     		}
-    		output += res + "\n";
-    		p.destroy();
 
+    		p.destroy();
+    		
+    		
+
+    		
+    		
+    		
+    		//output = res + "\n";
     		if (res.equals("")) {
     			callbackContext.error("domain");
     	        return;
@@ -186,9 +191,12 @@ public class Traceroute extends CordovaPlugin {
     		t.put("res", res);
     		t.put("time", elapsedTime);
     		t.put("ip", ip1);
-
+        	if (res.contains("1 received")) {
+        		t.put("finished", 1);
+        	}
+    		
             resultList.put(t);
-    callbackContext.success(resultList);
+        	callbackContext.success(resultList);
         }
         catch (UnknownHostException e) 
         {
